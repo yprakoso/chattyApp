@@ -12,9 +12,7 @@ class App extends Component {
   }
 
   onMessageReceive = (event) => {
-      console.log(event.data);
       const newMessage = JSON.parse(event.data);
-      console.log(newMessage);
       const messages = this.state.messages.concat(newMessage);
       this.setState({messages: messages});
   }
@@ -28,10 +26,15 @@ class App extends Component {
   getNewChat = (e) => {
     if (e.key === 'Enter') {
       let newMessage = { username: this.state.currentUser.name, content: e.target.value };
-      // let messages = this.state.messages.concat(newMessage);
-      // this.setState({messages: messages});
       this.socket.send(JSON.stringify(newMessage));
       e.target.value = "";
+    }
+  }
+
+  getNewName = (e) => {
+    this.state.currentUser.name = e.target.value;
+    if (e.key === 'Enter') {
+      document.getElementsByClassName('chatbar-message')[0].focus();
     }
   }
 
@@ -42,7 +45,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <MessageList messages = {this.state.messages} />
-        <ChatBar currentUser = {this.state.currentUser} newMessage = {this.getNewChat}/>
+        <ChatBar currentUser = {this.getNewName} newMessage = {this.getNewChat}/>
       </div>
     );
   }
