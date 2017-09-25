@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 class Message extends Component {
-  _buildIncomingMessage() {
+  _buildIncomingMessageWithImg() {
     return (
       <div className="message">
         <span className="message-username" style={{color: this.props.message.userColor}}>{this.props.message.username}</span>
@@ -10,6 +10,14 @@ class Message extends Component {
             <img src={this.props.message.imgurl} />
           </div>
         </span>
+     </div>
+    );
+  }
+  _buildIncomingMessageWithoutImage() {
+    return (
+      <div className="message">
+        <span className="message-username" style={{color: this.props.message.userColor}}>{this.props.message.username}</span>
+        <span className="message-content">{this.props.message.content}</span>
      </div>
     );
   }
@@ -22,7 +30,11 @@ class Message extends Component {
   }
   render() {
     if (this.props.message.type === "incomingMessage") {
-      return this._buildIncomingMessage();
+      if (this.props.message.imgurl) {
+        return this._buildIncomingMessageWithImg();
+      } else {
+        return this._buildIncomingMessageWithoutImage();
+      }
     } else if (this.props.message.type === "incomingNotification") {
       return this._buildIncomingNotification();
     }
